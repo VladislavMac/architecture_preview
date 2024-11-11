@@ -17,16 +17,20 @@ namespace Containers
 
         public static string LAST_NAME_SAVE_FILE => PlayerPrefs.GetString("LAST_NAME_SAVE_FILE");
         public static string START_NAME_SAVE_FILE => "NewGame";
+        public static string FAST_NAME_SAVE_FILE => "FastSave";
+        public static int NUMBER_FAST_SAVE_FILE => PlayerPrefs.GetInt("NUMBER_FAST_SAVE_FILE");
         public static string SAVE_DATA_PATH => UnityEngine.Application.persistentDataPath + "/Saves";
 
         private static GameStateProvider _gameStateProvider;
 
-        private static Dictionary<string, IRegisteredContainer> _registeredContainers = new(); // future load DATA
-        private static List<DataBehaviour> _registeredDataBehaviour = new();
+        private static Dictionary<string, IRegisteredContainer> _registeredContainers;
+        private static List<DataBehaviour> _registeredDataBehaviour;
 
         static GlobalContainer()
         {
-            GlobalContainer._gameStateProvider = new GameStateProvider();
+            GlobalContainer._gameStateProvider = new();
+            GlobalContainer._registeredDataBehaviour = new();
+            GlobalContainer._registeredContainers = new();
         }
 
         #region [ Public Methods ]
@@ -59,6 +63,12 @@ namespace Containers
         public static void SetLastNameSaveFile(string name)
         {
             PlayerPrefs.SetString("LAST_NAME_SAVE_FILE", name);
+            PlayerPrefs.Save();
+        }
+
+        public static void SetNumberFastSaveFile(int number)
+        {
+            PlayerPrefs.SetInt("NUMBER_FAST_SAVE_FILE", number);
             PlayerPrefs.Save();
         }
 

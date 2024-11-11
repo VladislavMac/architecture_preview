@@ -8,9 +8,13 @@ namespace Behaviours.System
     {
         private async void Update()
         {
-            if (Input.GetKey(KeyCode.F5))
+            if (Input.GetKeyUp(KeyCode.F5))
             {
                 await GlobalContainer.GetContainer("service").GetSystem<SaveService>("service_save").SaveCurrentGameStateData();
+            }            
+            if (Input.GetKeyUp(KeyCode.F1))
+            {
+                PlayerPrefs.DeleteAll();
             }
         }
     }

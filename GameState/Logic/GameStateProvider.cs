@@ -42,7 +42,7 @@ namespace GameState.Logic
             }
         }
 
-        #region ----- Get DATA -----
+        #region ===== Get DATA =====
 
         public T TryGetData<T>(string id) where T : class, ISavedData
         {
@@ -107,7 +107,7 @@ namespace GameState.Logic
             }
         }
 
-        #region Json Data Serializer
+        #region ===== Json Data Serializer =====
 
         public async Task SaveGameData(string fileName)
         {
@@ -118,6 +118,10 @@ namespace GameState.Logic
         {
             this._gameStateData = await _jsonGameDataSerializer.GetGameStateData(fileName);
         }
+
+        #endregion
+
+        #region ===== File system =====
 
         public FileInfo[] GetArraySaves()
         {
@@ -153,8 +157,23 @@ namespace GameState.Logic
             }
         }
 
+        public int GetCountSaveFiles(string name)
+        {
+            DirectoryInfo dir = new DirectoryInfo(GlobalContainer.SAVE_DATA_PATH);
+            FileInfo[] files = dir.GetFiles("*.json");
+
+            int count = 0;
+
+            foreach (FileInfo file in files)
+            {
+                if (file.Name.Contains(name)) count++;
+            }
+
+            return count;
+        }
 
         #endregion
+
         #endregion
 
         #region Private
